@@ -85,65 +85,12 @@ struct UploadVideoView: View {
             Spacer()
             
             // Bottom Navigation Bar
-            ZStack {
-                // Background bar
-                Rectangle()
-                    .fill(Color.black)
-                    .frame(height: 50) // Adjusted to make the bar thinner
-                    .edgesIgnoringSafeArea(.bottom)
-                
-                // Buttons
-                HStack {
-                    Button(action: {
-                        selectedTab = 0
-                    }) {
-                        Image(systemName: "house")
-                            .resizable()
-                            .frame(width: 25, height: 25) // Adjust the size of the house icon
-                            .padding(12) // Adjust padding to make the button smaller
-                            .foregroundColor(selectedTab == 0 ? .black : .white)
-                            .background(selectedTab == 0 ? Color.white : Color.clear)
-                            .clipShape(Circle())
-                            .frame(width: 50, height: 50) // Adjust frame to make button smaller
-                    }
-                    .padding(.leading, 20) // Adjust position within the thinner bar
-
-                    Spacer()
-
-                    Button(action: {
-                        selectedTab = 1
-                    }) {
-                        Image(systemName: "plus")
-                            .resizable()
-                            .frame(width: 25, height: 25) // Adjust the size of the plus icon
-                            .padding(25) // Adjust padding to make the button smaller
-                            .foregroundColor(.black)
-                            .background(Color.yellow)
-                            .clipShape(Circle())
-                            .frame(width: 70, height: 70) // Adjust the size of the button frame
-                            .offset(y: -20)
-                    }
-
-                    Spacer()
-
-                    Button(action: {
-                        selectedTab = 2
-                    }) {
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .frame(width: 25, height: 25) // Adjust the size of the magnifying glass icon
-                            .padding(12) // Adjust padding to make the button smaller
-                            .foregroundColor(selectedTab == 2 ? .black : .white)
-                            .background(selectedTab == 2 ? Color.white : Color.clear)
-                            .clipShape(Circle())
-                            .frame(width: 50, height: 50) // Adjust frame to make button smaller
-                    }
-                    .padding(.trailing, 20) // Adjust position within the thinner bar
-                }
-                .padding(.horizontal, 8) // Adjust the horizontal padding as needed
-            }
+            
+            // Buttons
+            
         }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
