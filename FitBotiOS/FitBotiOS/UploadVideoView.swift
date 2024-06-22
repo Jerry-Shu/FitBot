@@ -7,21 +7,20 @@ struct UploadVideoView: View {
         VStack {
             // Top Section
             HStack {
-                Image(systemName: "person.circle")
+                Image(systemName: "return")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 20, height: 20)
                     .padding()
                 Spacer()
                 Text("FitBot")
                     .font(.title)
                     .bold()
+                    .padding(.trailing,40)
                 Spacer()
-                Image(systemName: "gear")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .padding()
+                
+
             }
-            .padding(.vertical, -10) // Reduce vertical padding to make the bar thinner
+            .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
             .padding(.horizontal, 10) // Adjust the horizontal padding as needed
             .background(Color.black)
             .foregroundColor(.white)
