@@ -9,6 +9,7 @@ struct UploadVideoView: View {
     @State private var filePath: String?
     @State private var backendResponse: [String: Any]?
     @State private var navigateToResponse = false
+    @State private var showingCamera = false
 
     var body: some View {
         NavigationView {
@@ -50,7 +51,7 @@ struct UploadVideoView: View {
                     
                     Button(action: {
                         // Action for recording new video
-                        // Implement video recording functionality here
+                        showingCamera = true
                     }) {
                         Text("Record New Video")
                             .frame(maxWidth: .infinity)
@@ -106,7 +107,9 @@ struct UploadVideoView: View {
                             .padding(.top, 20)
                     }
                 }
-                
+                .sheet(isPresented: $showingCamera) {
+                    CameraView(isShown: $showingCamera, videoURL: $selectedVideoURL, videoData: $videoData)
+                }
                 Spacer()
                 
                 // Bottom Navigation Bar
@@ -118,7 +121,8 @@ struct UploadVideoView: View {
     }
     
     func uploadVideo(videoData: Data) {
-        let url = URL(string: "http://10.56.64.33:5656/api/upload")!
+//        let url = URL(string: "http://10.56.64.33:5656/api/upload")!
+        let url = URL(string: "http://10.0.0.64:5656/api/upload")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
@@ -169,7 +173,8 @@ struct UploadVideoView: View {
     }
 
     func sendFilePath(filePath: String) {
-        let url = URL(string: "http://10.56.64.33:5656/api/evaluate")!
+//        let url = URL(string: "http://10.56.64.33:5656/api/evaluate")!
+        let url = URL(string: "http://10.0.0.64:5656/api/evaluate")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -280,5 +285,50 @@ struct VideoPicker: UIViewControllerRepresentable {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         UploadVideoView()
+    }
+}
+
+struct CameraView: UIViewControllerRepresentable {
+    @Binding var isShown: Bool
+    @Binding var videoURL: URL?
+    @Binding var videoData: Data?
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = .camera
+        picker.mediaTypes = ["public.movie"]
+        picker.videoQuality = .typeMedium
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        var parent: CameraView
+
+        init(_ parent: CameraView) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let url = info[.mediaURL] as? URL {
+                parent.videoURL = url
+                do {
+                    parent.videoData = try Data(contentsOf: url)
+                } catch {
+                    print("Error loading video data: \(error)")
+                }
+            }
+            parent.isShown = false
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.isShown = false
+        }
     }
 }
