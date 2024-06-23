@@ -1,7 +1,7 @@
 ## API
 1. upload video
 
-`/api/upload`
+`POST /api/upload`
 
 request:
 ```json
@@ -21,7 +21,7 @@ response:
 ```
 2. evaluate
 
-`/api/evaluate`
+`POST /api/evaluate`
 
 request:
 ```json
