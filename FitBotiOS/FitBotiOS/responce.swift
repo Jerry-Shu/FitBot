@@ -25,45 +25,47 @@ struct ResponseView: View {
             .foregroundColor(.white)
             
             // Content Section
-            VStack {
-                Text("Response")
-                    .font(.title2)
-                    .bold()
-                    .padding(.top, 20)
-                
-                if let data = backendResponse["data"] as? [String: Any] {
-                    if let overallEvaluation = data["overall_evaluation"] as? [String] {
-                        Text("Overall Evaluation:")
-                            .font(.headline)
-                            .padding(.top, 10)
-                        
-                        ForEach(overallEvaluation, id: \.self) { evaluation in
-                            Text(evaluation)
-                                .padding(.top, 2)
-                        }
-                    }
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text("Feedback")
+                        .font(.title)
+                        .bold()
+                        .padding(.top, 20)
                     
-                    if let potentialImprovement = data["potential_improvement"] as? [[String: String]] {
-                        Text("Potential Improvements:")
-                            .font(.headline)
-                            .padding(.top, 10)
+                    if let data = backendResponse["data"] as? [String: Any] {
+                        if let overallEvaluation = data["overall_evaluation"] as? [String] {
+                            Text("Overall Evaluation:")
+                                .font(.headline)
+                                .padding(.top, 10)
+                            
+                            ForEach(overallEvaluation.indices, id: \.self) { index in
+                                Text("• \(overallEvaluation[index])")
+                                    .padding(.top, 2)
+                            }
+                        }
                         
-                        ForEach(potentialImprovement, id: \.self) { improvement in
-                            if let problem = improvement["problem"], let suggestion = improvement["improvement"] {
-                                VStack(alignment: .leading) {
-                                    Text("Problem: \(problem)")
-                                    Text("Suggestion: \(suggestion)")
-                                        .padding(.bottom, 5)
+                        if let potentialImprovement = data["potential_improvement"] as? [[String: String]] {
+                            Text("Potential Improvements:")
+                                .font(.title2)
+                                .padding(.top, 10)
+                            
+                            ForEach(potentialImprovement.indices, id: \.self) { index in
+                                if let problem = potentialImprovement[index]["problem"], let suggestion = potentialImprovement[index]["improvement"] {
+                                    VStack(alignment: .leading) {
+                                        Text("\(index + 1). **Problem:** \(problem)")
+                                        Text("   **Suggestion:** \(suggestion)")
+                                            .padding(.bottom, 5)
+                                    }
+                                    .padding(.top, 2)
                                 }
-                                .padding(.top, 2)
                             }
                         }
                     }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding()
             }
-            .padding()
         }
     }
 }

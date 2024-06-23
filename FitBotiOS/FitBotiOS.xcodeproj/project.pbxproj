@@ -22,6 +22,7 @@
 		953362542C27536D00550391 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		953362562C27536E00550391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		953362592C27536E00550391 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C426BB932C27E8E3006550D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C4413DB62C27BFDB00FDC445 /* responce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = responce.swift; sourceTree = "<group>"; };
 		C4BFB7232C2771B900EF8198 /* UploadVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoView.swift; sourceTree = "<group>"; };
 		C4BFB7272C27A0CE00EF8198 /* createNewAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createNewAccount.swift; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		953362512C27536D00550391 /* FitBotiOS */ = {
 			isa = PBXGroup;
 			children = (
+				C426BB932C27E8E3006550D9 /* Info.plist */,
 				953362522C27536D00550391 /* FitBotiOSApp.swift */,
 				953362542C27536D00550391 /* ContentView.swift */,
 				C4BFB7272C27A0CE00EF8198 /* createNewAccount.swift */,
@@ -286,6 +288,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"FitBotiOS/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FitBotiOS/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "camera need access permission.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -314,6 +319,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"FitBotiOS/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FitBotiOS/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "camera need access permission.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
