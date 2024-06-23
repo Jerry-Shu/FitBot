@@ -1,5 +1,62 @@
 import SwiftUI
 
+struct ProgressRingView: View {
+    var rating: Double
+    var goal: Double
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(lineWidth: 20)
+                .opacity(0.3)
+                .foregroundColor(Color.orange)
+            
+            Circle()
+                .trim(from: 0.0, to: CGFloat(min(self.rating / self.goal, 1.0)))
+                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                .foregroundColor(Color.orange)
+                .rotationEffect(Angle(degrees: 270.0))
+                .animation(.linear)
+            
+            VStack {
+                Image(systemName: "figure.strengthtraining.traditional")
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                Text(String(format: "%.0f / 100", min(self.rating / self.goal * 100, 100.0)))
+                    .font(.title2)
+                    .bold()
+            }
+            
+            if rating <= 30 {
+                Text("Needs Improvement: Consider focusing on core strength and form. Consistency is key.")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.orange)
+                    .offset(x: 190)
+            } else if rating <= 60 {
+                Text("Good Effort: You're making progress. Keep working on your technique.")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.orange)
+                    .offset(x: 190)
+            } else if rating <= 80 {
+                Text("Great Job: Your form and strength are improving. Keep up the good work!")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.orange)
+                    .offset(x: 190)
+            } else {
+                Text("Excellent: You're doing fantastic! Maintain your routine and stay strong.")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.orange)
+                    .offset(x: 160)
+            }
+        }
+        .frame(width: 150, height: 150)
+    }
+}
+
 struct ResponseView: View {
     var backendResponse: [String: Any]
     
@@ -7,19 +64,13 @@ struct ResponseView: View {
         VStack {
             // Top Section
             HStack {
-                Image(systemName: "return")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .padding()
-                    .foregroundColor(.black)
                 Spacer()
                 Text("FitBot")
                     .font(.title)
                     .bold()
-                    .padding(.trailing, 40)
                 Spacer()
             }
-            .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
+            .padding(.vertical, 5) // Reduce vertical padding to make the bar thinner
             .padding(.horizontal, 10) // Adjust the horizontal padding as needed
             .background(Color.black)
             .foregroundColor(.white)
@@ -27,16 +78,27 @@ struct ResponseView: View {
             // Content Section
             ScrollView {
                 VStack(alignment: .leading) {
-                    Text("Feedback")
+                    Text("Overall Rating")
                         .font(.title)
                         .bold()
                         .padding(.top, 20)
+                        .foregroundColor(.orange)
+                    
+                    // Progress Ring View
+                    if let data = backendResponse["data"] as? [String: Any],
+                       let rating = data["rating"] as? Double {
+                        HStack {
+                            ProgressRingView(rating: rating, goal: 100)
+                                .padding(.vertical, 20)
+                        }
+                    }
                     
                     if let data = backendResponse["data"] as? [String: Any] {
                         if let overallEvaluation = data["overall_evaluation"] as? [String] {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Overall Evaluation:")
                                     .font(.headline)
+                                    .foregroundColor(.orange)
                                     .padding(.top, 10)
                                 
                                 Rectangle()
@@ -63,6 +125,7 @@ struct ResponseView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Potential Improvements:")
                                     .font(.headline)
+                                    .foregroundColor(.orange)
                                     .padding(.top, 10)
                                 
                                 Rectangle()
@@ -107,6 +170,7 @@ struct ResponseView_Previews: PreviewProvider {
         let mockResponse: [String: Any] = [
             "statusMessage": "Success",
             "data": [
+                "rating": 72.0,
                 "overall_evaluation": [
                     "The individual is attempting a deadlift with a specialized barbell",
                     "The stance appears to be too narrow for optimal deadlift form",

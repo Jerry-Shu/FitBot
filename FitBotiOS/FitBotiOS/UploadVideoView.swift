@@ -121,8 +121,8 @@ struct UploadVideoView: View {
     }
     
     func uploadVideo(videoData: Data) {
-//        let url = URL(string: "http://10.56.64.33:5656/api/upload")!
-        let url = URL(string: "http://10.0.0.64:5656/api/upload")!
+        let url = URL(string: "http://10.56.64.33:5656/api/upload")!
+        //let url = URL(string: "http://10.0.0.64:5656/api/upload")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
@@ -173,8 +173,8 @@ struct UploadVideoView: View {
     }
 
     func sendFilePath(filePath: String) {
-//        let url = URL(string: "http://10.56.64.33:5656/api/evaluate")!
-        let url = URL(string: "http://10.0.0.64:5656/api/evaluate")!
+        let url = URL(string: "http://10.56.64.33:5656/api/evaluate")!
+        //let url = URL(string: "http://10.0.0.64:5656/api/evaluate")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
