@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct ResponseView: View {
-    var response: String
-
+    var backendResponse: [String: Any]
+    
     var body: some View {
         VStack {
             // Top Section
@@ -31,39 +31,80 @@ struct ResponseView: View {
                     .bold()
                     .padding(.top, 20)
                 
-                Text(response)
-                    .multilineTextAlignment(.center)
-                    .padding()
+                if let data = backendResponse["data"] as? [String: Any] {
+                    if let overallEvaluation = data["overall_evaluation"] as? [String] {
+                        Text("Overall Evaluation:")
+                            .font(.headline)
+                            .padding(.top, 10)
+                        
+                        ForEach(overallEvaluation, id: \.self) { evaluation in
+                            Text(evaluation)
+                                .padding(.top, 2)
+                        }
+                    }
+                    
+                    if let potentialImprovement = data["potential_improvement"] as? [[String: String]] {
+                        Text("Potential Improvements:")
+                            .font(.headline)
+                            .padding(.top, 10)
+                        
+                        ForEach(potentialImprovement, id: \.self) { improvement in
+                            if let problem = improvement["problem"], let suggestion = improvement["improvement"] {
+                                VStack(alignment: .leading) {
+                                    Text("Problem: \(problem)")
+                                    Text("Suggestion: \(suggestion)")
+                                        .padding(.bottom, 5)
+                                }
+                                .padding(.top, 2)
+                            }
+                        }
+                    }
+                }
                 
                 Spacer()
-                
-                //                Button(action: {
-                //                    // Perform action when the button is pressed
-                //                    print("Button was pressed")
-                //                }) {
-                //                    Image(systemName: "arrow.left")
-                //                        .resizable()
-                //                        .aspectRatio(contentMode: .fit)
-                //                        .padding(30) // Increase padding for even larger button size
-                //                        .frame(width: 120, height: 150)
-                //                }
-                //                .padding(100)
-                //                .position(x:190, y:470)
-                //            }
-                //
-                //            Spacer()
             }
-            // Bottom Navigation Bar
-            
-            // Buttons
+            .padding()
         }
     }
 }
 
 struct ResponseView_Previews: PreviewProvider {
     static var previews: some View {
-        ResponseView(response: "Hello World")
+        let mockResponse: [String: Any] = [
+            "statusMessage": "Success",
+            "data": [
+                "overall_evaluation": [
+                    "The individual is attempting a deadlift with a specialized barbell",
+                    "The stance appears to be too narrow for optimal deadlift form",
+                    "The back position seems slightly rounded, which can be risky",
+                    "Grip on the barbell looks appropriate",
+                    "The lifter's attire is suitable for the exercise"
+                ],
+                "potential_improvement": [
+                    [
+                        "improvement": "Widen the stance to about shoulder-width apart for better stability and power generation",
+                        "problem": "Narrow stance"
+                    ],
+                    [
+                        "improvement": "Focus on maintaining a neutral spine throughout the lift by engaging the core and keeping the chest up",
+                        "problem": "Rounded back"
+                    ],
+                    [
+                        "improvement": "Ensure proper setup by hinging at the hips, keeping shins close to the bar, and tensioning the body before initiating the lift",
+                        "problem": "Incomplete setup"
+                    ],
+                    [
+                        "improvement": "Emphasize the hip hinge movement by pushing the hips back further before bending the knees to reach the bar",
+                        "problem": "Unclear hip hinge"
+                    ],
+                    [
+                        "improvement": "Double-check that both hands are evenly placed on the barbell for balanced lifting",
+                        "problem": "Possible uneven grip"
+                    ]
+                ]
+            ],
+            "statusCode": 0
+        ]
+        ResponseView(backendResponse: mockResponse)
     }
 }
-
-

@@ -7,7 +7,7 @@ struct UploadVideoView: View {
     @State private var showImagePicker = false
     @State private var videoData: Data?
     @State private var filePath: String?
-    @State private var backendResponse: String?
+    @State private var backendResponse: [String: Any]?
     @State private var navigateToResponse = false
 
     var body: some View {
@@ -92,7 +92,7 @@ struct UploadVideoView: View {
                             .padding(.horizontal, 20)
                     }
                     
-                    NavigationLink(destination: ResponseView(response: backendResponse ?? ""), isActive: $navigateToResponse) {
+                    NavigationLink(destination: ResponseView(backendResponse: backendResponse ?? [:]), isActive: $navigateToResponse) {
                         EmptyView()
                     }
                     
@@ -101,8 +101,8 @@ struct UploadVideoView: View {
                             .padding(.top, 20)
                     }
                     
-                    if let backendResponse = backendResponse {
-                        Text("Backend response: \(backendResponse)")
+                    if backendResponse != nil {
+                        Text("Backend response received.")
                             .padding(.top, 20)
                     }
                 }
@@ -189,7 +189,7 @@ struct UploadVideoView: View {
                     do {
                         if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                             DispatchQueue.main.async {
-                                self.backendResponse = jsonResponse["statusMessage"] as? String ?? "No message"
+                                self.backendResponse = jsonResponse
                                 print("Backend response: \(jsonResponse)")
                                 // Navigate to response view on successful upload and evaluation
                                 self.navigateToResponse = true
@@ -205,7 +205,7 @@ struct UploadVideoView: View {
                     do {
                         if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                             DispatchQueue.main.async {
-                                self.backendResponse = jsonResponse["statusMessage"] as? String ?? "No message"
+                                self.backendResponse = jsonResponse
                                 print("Response data: \(jsonResponse)")
                             }
                         }
