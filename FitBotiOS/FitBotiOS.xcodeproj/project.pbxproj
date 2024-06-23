@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E7CA3022C2797E1003EBE66 /* createNewAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7CA3012C2797E1003EBE66 /* createNewAccount.swift */; };
+		1E8521692C27AF90006E47F2 /* responce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8521682C27AF90006E47F2 /* responce.swift */; };
 		953362532C27536D00550391 /* FitBotiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953362522C27536D00550391 /* FitBotiOSApp.swift */; };
 		953362552C27536D00550391 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953362542C27536D00550391 /* ContentView.swift */; };
 		953362572C27536E00550391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 953362562C27536E00550391 /* Assets.xcassets */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E7CA3012C2797E1003EBE66 /* createNewAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createNewAccount.swift; sourceTree = "<group>"; };
+		1E8521682C27AF90006E47F2 /* responce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = responce.swift; sourceTree = "<group>"; };
 		9533624F2C27536D00550391 /* FitBotiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitBotiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		953362522C27536D00550391 /* FitBotiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitBotiOSApp.swift; sourceTree = "<group>"; };
 		953362542C27536D00550391 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,7 +59,9 @@
 			children = (
 				953362522C27536D00550391 /* FitBotiOSApp.swift */,
 				953362542C27536D00550391 /* ContentView.swift */,
+				1E7CA3012C2797E1003EBE66 /* createNewAccount.swift */,
 				C4BFB7232C2771B900EF8198 /* UploadVideoView.swift */,
+				1E8521682C27AF90006E47F2 /* responce.swift */,
 				953362562C27536E00550391 /* Assets.xcassets */,
 				953362582C27536E00550391 /* Preview Content */,
 			);
@@ -99,6 +105,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
+				ORGANIZATIONNAME = calhacks;
 				TargetAttributes = {
 					9533624E2C27536D00550391 = {
 						CreatedOnToolsVersion = 15.4;
@@ -140,6 +147,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E8521692C27AF90006E47F2 /* responce.swift in Sources */,
+				1E7CA3022C2797E1003EBE66 /* createNewAccount.swift in Sources */,
 				953362552C27536D00550391 /* ContentView.swift in Sources */,
 				953362532C27536D00550391 /* FitBotiOSApp.swift in Sources */,
 				C4BFB7242C2771B900EF8198 /* UploadVideoView.swift in Sources */,
@@ -276,6 +285,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FitBotiOS/Preview Content\"";
+				DEVELOPMENT_TEAM = F4Q37839RW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -304,6 +314,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FitBotiOS/Preview Content\"";
+				DEVELOPMENT_TEAM = F4Q37839RW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
