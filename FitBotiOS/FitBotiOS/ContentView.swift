@@ -64,17 +64,11 @@ struct ContentView: View {
                 }
                 if navigateToCreateAccount {
                     
-                    
                     NavigationLink(value: navigateToCreateAccount) {
-                    
                         createNewAccount()
-                        
                     }
-                    
                     .fullScreenCover(isPresented: $navigateToCreateAccount) {
-                    
                         createNewAccount()
-                        
                     }
                 }
                 else if login {
