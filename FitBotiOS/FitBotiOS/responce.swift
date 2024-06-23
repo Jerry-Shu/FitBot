@@ -37,7 +37,6 @@ struct ResponseView: View {
                             Text("Overall Evaluation:")
                                 .font(.headline)
                                 .padding(.top, 10)
-                            
                             ForEach(overallEvaluation.indices, id: \.self) { index in
                                 Text("• \(overallEvaluation[index])")
                                     .padding(.top, 2)
