@@ -24,7 +24,8 @@ class FitnessService:
         self.client = boto3.client("bedrock-runtime", region_name="us-east-1")
         self.model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
         self.response_format = {
-            "overall_valuation": ["point1", "point2", "..."],
+            "rating": 80,
+            "overall_evaluation": ["point1", "point2", "..."],
             "potential_improvement": [
                 {"problem": "p1", "improvement": "i1"},
                 {"problem": "p2", "improvement": "i2"},
@@ -58,7 +59,7 @@ class FitnessService:
                         },
                         {
                             "type": "text",
-                            "text": f"Evaluate the fitness movement and give an overall evaluation and point out the problem of this movement and how to improve, you answer must be a json in this format: {self.response_format}"
+                            "text": f"Evaluate the fitness movement, give a rating of the movement out of 100 and give an overall evaluation and point out the problem of this movement and how to improve, you answer must be a json in this format: {self.response_format}"
                         }
                     ],
                 }
