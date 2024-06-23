@@ -19,7 +19,7 @@ struct UploadVideoView: View {
                 Text("FitBot")
                     .font(.title)
                     .bold()
-                    .padding(.trailing,40)
+                    .padding(.trailing, 40)
                 Spacer()
             }
             .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
@@ -99,25 +99,44 @@ struct UploadVideoView: View {
     }
     
     func uploadVideo(videoData: Data) {
-        let url = URL(string: "YOUR_BACKEND_URL_HERE")!
+        let url = URL(string: "http://10.56.64.33:5656/api/upload")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("video/mp4", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.uploadTask(with: request, from: videoData) { data, response, error in
+
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        let fullData = createBody(boundary: boundary, data: videoData, mimeType: "video/mp4", filename: "video.mp4")
+
+        let task = URLSession.shared.uploadTask(with: request, from: fullData) { data, response, error in
             if let error = error {
                 print("Upload error: \(error)")
                 return
             }
-            
+
             if let response = response as? HTTPURLResponse, response.statusCode == 200 {
                 print("Upload successful")
             } else {
                 print("Upload failed")
             }
         }
-        
+
         task.resume()
+    }
+
+    func createBody(boundary: String, data: Data, mimeType: String, filename: String) -> Data {
+        var body = Data()
+
+        let boundaryPrefix = "--\(boundary)\r\n"
+
+        body.append(Data(boundaryPrefix.utf8))
+        body.append(Data("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".utf8))
+        body.append(Data("Content-Type: \(mimeType)\r\n\r\n".utf8))
+        body.append(data)
+        body.append(Data("\r\n".utf8))
+        body.append(Data("--\(boundary)--\r\n".utf8))
+
+        return body
     }
 }
 
