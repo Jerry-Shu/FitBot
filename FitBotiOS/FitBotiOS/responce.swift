@@ -34,28 +34,61 @@ struct ResponseView: View {
                     
                     if let data = backendResponse["data"] as? [String: Any] {
                         if let overallEvaluation = data["overall_evaluation"] as? [String] {
-                            Text("Overall Evaluation:")
-                                .font(.headline)
-                                .padding(.top, 10)
-                            ForEach(overallEvaluation.indices, id: \.self) { index in
-                                Text("• \(overallEvaluation[index])")
-                                    .padding(.top, 2)
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Overall Evaluation:")
+                                    .font(.headline)
+                                    .padding(.top, 10)
+                                
+                                Rectangle()
+                                    .fill(Color.orange)
+                                    .frame(height: 6)
+                                
+                                ForEach(overallEvaluation.indices, id: \.self) { index in
+                                    HStack(alignment: .top) {
+                                        Text("\(index + 1)")
+                                            .bold()
+                                            .foregroundColor(.white)
+                                            .padding(6)
+                                            .background(Color.orange)
+                                            .clipShape(Circle())
+                                        Text(overallEvaluation[index])
+                                            .padding(.leading, 5)
+                                    }
+                                    .padding(.top, 5)
+                                }
                             }
                         }
                         
                         if let potentialImprovement = data["potential_improvement"] as? [[String: String]] {
-                            Text("Potential Improvements:")
-                                .font(.title2)
-                                .padding(.top, 10)
-                            
-                            ForEach(potentialImprovement.indices, id: \.self) { index in
-                                if let problem = potentialImprovement[index]["problem"], let suggestion = potentialImprovement[index]["improvement"] {
-                                    VStack(alignment: .leading) {
-                                        Text("\(index + 1). **Problem:** \(problem)")
-                                        Text("   **Suggestion:** \(suggestion)")
-                                            .padding(.bottom, 5)
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Potential Improvements:")
+                                    .font(.headline)
+                                    .padding(.top, 10)
+                                
+                                Rectangle()
+                                    .fill(Color.orange)
+                                    .frame(height: 6)
+                                
+                                ForEach(potentialImprovement.indices, id: \.self) { index in
+                                    if let problem = potentialImprovement[index]["problem"], let suggestion = potentialImprovement[index]["improvement"] {
+                                        VStack(alignment: .leading) {
+                                            HStack(alignment: .top) {
+                                                Text("\(index + 1)")
+                                                    .bold()
+                                                    .foregroundColor(.white)
+                                                    .padding(6)
+                                                    .background(Color.orange)
+                                                    .clipShape(Circle())
+                                                VStack(alignment: .leading) {
+                                                    Text("**Problem:** \(problem)")
+                                                    Text("**Suggestion:** \(suggestion)")
+                                                        .padding(.top, 2)
+                                                }
+                                                .padding(.leading, 5)
+                                            }
+                                            .padding(.top, 5)
+                                        }
                                     }
-                                    .padding(.top, 2)
                                 }
                             }
                         }
