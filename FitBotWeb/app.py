@@ -3,7 +3,7 @@ import requests
 import json
 
 # 设置页面标题
-st.title("FitBot")
+st.title("FitBot Demo")
 
 # 初始化会话状态
 if "messages" not in st.session_state:
@@ -12,7 +12,7 @@ if "messages" not in st.session_state:
     st.session_state.user_input = ""
 
 # 显示聊天记录
-st.header("Chat with Your Personal AI Fitness Trainer")
+st.header("Upload Your Training Video to Get An AI Feedback")
 
 def display_message(role, content):
     if role == "ai":
@@ -33,7 +33,7 @@ def format_evaluation_result(result):
     formatted_text = "<h3 style='color:black;'>Overall Evaluation</h3>\n"
     
     # 检查并获取 overall_valuation
-    overall_valuation = result.get("data", {}).get("overall_valuation", [])
+    overall_valuation = result.get("data", {}).get("overall_evaluation", [])
     for index, evaluation in enumerate(overall_valuation, 1):
         formatted_text += f"<p style='color:black;'>{index}. {evaluation}</p>"
     
