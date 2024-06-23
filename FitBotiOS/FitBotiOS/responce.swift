@@ -1,92 +1,69 @@
 import SwiftUI
 
-struct responce: View {
-    @State private var selectedTab = 0
-    @State private var message = ""
-    
-    @State private var returned = false
+struct ResponseView: View {
+    var response: String
+
     var body: some View {
         VStack {
             // Top Section
             HStack {
-                Image(systemName: "person.circle")
+                Image(systemName: "return")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 20, height: 20)
                     .padding()
+                    .foregroundColor(.black)
                 Spacer()
                 Text("FitBot")
                     .font(.title)
                     .bold()
+                    .padding(.trailing, 40)
                 Spacer()
-                Image(systemName: "gear")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .padding()
             }
-            .padding(.vertical, -10) // Reduce vertical padding to make the bar thinner
+            .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
             .padding(.horizontal, 10) // Adjust the horizontal padding as needed
             .background(Color.black)
             .foregroundColor(.white)
             
             // Content Section
             VStack {
-                Text("Suggestions")
+                Text("Response")
                     .font(.title2)
                     .bold()
                     .padding(.top, 20)
                 
-                Text("Record a new video or select an existing one from your device. Your video will be analyzed to provide motion improvement suggestions.")
+                Text(response)
                     .multilineTextAlignment(.center)
                     .padding()
                 
                 Spacer()
                 
-                Button(action: {
-                    
-                    self.returned = true
-                    // Perform action when the button is pressed
-                    print("Button was pressed")
-                }) {
-                    Image(systemName: "arrow.left")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(30) // Increase padding for even larger button size
-                }
-                .frame(width: 0.0)
-                .buttonStyle(CircularButtonStyle(fillColor: .black, size: 80)).padding(100)
-                
-                
-                
+                //                Button(action: {
+                //                    // Perform action when the button is pressed
+                //                    print("Button was pressed")
+                //                }) {
+                //                    Image(systemName: "arrow.left")
+                //                        .resizable()
+                //                        .aspectRatio(contentMode: .fit)
+                //                        .padding(30) // Increase padding for even larger button size
+                //                        .frame(width: 120, height: 150)
+                //                }
+                //                .padding(100)
+                //                .position(x:190, y:470)
+                //            }
+                //
+                //            Spacer()
             }
-            
-            Spacer()
-            
             // Bottom Navigation Bar
             
             // Buttons
-            if returned{
-                
-                
-                NavigationLink(value:returned ) {
-                
-                    UploadVideoView()
-                    
-                }
-                
-                .fullScreenCover(isPresented: $returned) {
-                
-                    UploadVideoView()
-                    
-                }
-            }
-            
         }
     }
-    
 }
 
-struct Previews: PreviewProvider {
+struct ResponseView_Previews: PreviewProvider {
     static var previews: some View {
-        responce()
+        ResponseView(response: "Hello World")
     }
 }
+
+

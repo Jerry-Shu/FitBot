@@ -8,105 +8,112 @@ struct UploadVideoView: View {
     @State private var videoData: Data?
     @State private var filePath: String?
     @State private var backendResponse: String?
+    @State private var navigateToResponse = false
 
     var body: some View {
-        VStack {
-            // Top Section
-            HStack {
-                Image(systemName: "return")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .padding()
-                Spacer()
-                Text("FitBot")
-                    .font(.title)
-                    .bold()
-                    .padding(.trailing, 40)
-                Spacer()
-            }
-            .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
-            .padding(.horizontal, 10) // Adjust the horizontal padding as needed
-            .background(Color.black)
-            .foregroundColor(.white)
-            
-            // Content Section
+        NavigationView {
             VStack {
-                Text("Send Video for Analysis")
-                    .font(.title2)
-                    .bold()
-                    .padding(.top, 20)
+                // Top Section
+                HStack {
+                    Image(systemName: "return")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .padding()
+                    Spacer()
+                    Text("FitBot")
+                        .font(.title)
+                        .bold()
+                        .padding(.trailing, 40)
+                    Spacer()
+                }
+                .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
+                .padding(.horizontal, 10) // Adjust the horizontal padding as needed
+                .background(Color.black)
+                .foregroundColor(.white)
                 
-                Text("Record a new video or select an existing one from your device. Your video will be analyzed to provide motion improvement suggestions.")
-                    .multilineTextAlignment(.center)
-                    .padding()
-                Image("training")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .padding(.bottom, 20)
+                // Content Section
+                VStack {
+                    Text("Send Video for Analysis")
+                        .font(.title2)
+                        .bold()
+                        .padding(.top, 20)
+                    
+                    Text("Record a new video or select an existing one from your device. Your video will be analyzed to provide motion improvement suggestions.")
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    Image("training")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .padding(.bottom, 20)
+                    Spacer()
+                    
+                    Button(action: {
+                        // Action for recording new video
+                        // Implement video recording functionality here
+                    }) {
+                        Text("Record New Video")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .cornerRadius(10)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                    }
+                    .padding(.bottom, 10)
+                    
+                    Button(action: {
+                        showImagePicker = true
+                    }) {
+                        Text("Select Existing Video")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .cornerRadius(10)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                    }
+                    .padding(.bottom, 10)
+                    .sheet(isPresented: $showImagePicker) {
+                        VideoPicker(videoURL: $selectedVideoURL, videoData: $videoData)
+                    }
+                    
+                    Button(action: {
+                        if let videoData = videoData {
+                            uploadVideo(videoData: videoData)
+                        }
+                    }) {
+                        Text("Submit Video")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .cornerRadius(10)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                    }
+                    
+                    NavigationLink(destination: ResponseView(response: backendResponse ?? ""), isActive: $navigateToResponse) {
+                        EmptyView()
+                    }
+                    
+                    if let filePath = filePath {
+                        Text("Uploaded file path: \(filePath)")
+                            .padding(.top, 20)
+                    }
+                    
+                    if let backendResponse = backendResponse {
+                        Text("Backend response: \(backendResponse)")
+                            .padding(.top, 20)
+                    }
+                }
+                
                 Spacer()
                 
-                Button(action: {
-                    // Action for recording new video
-                    // Implement video recording functionality here
-                }) {
-                    Text("Record New Video")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.black)
-                        .cornerRadius(10)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 20)
-                }
-                .padding(.bottom, 10)
+                // Bottom Navigation Bar
                 
-                Button(action: {
-                    showImagePicker = true
-                }) {
-                    Text("Select Existing Video")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.black)
-                        .cornerRadius(10)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 20)
-                }
-                .padding(.bottom, 10)
-                .sheet(isPresented: $showImagePicker) {
-                    VideoPicker(videoURL: $selectedVideoURL, videoData: $videoData)
-                }
+                // Buttons
                 
-                Button(action: {
-                    if let videoData = videoData {
-                        uploadVideo(videoData: videoData)
-                    }
-                }) {
-                    Text("Submit Video")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.black)
-                        .cornerRadius(10)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 20)
-                }
-                
-                if let filePath = filePath {
-                    Text("Uploaded file path: \(filePath)")
-                        .padding(.top, 20)
-                }
-                
-                if let backendResponse = backendResponse {
-                    Text("Backend response: \(backendResponse)")
-                        .padding(.top, 20)
-                }
             }
-            
-            Spacer()
-            
-            // Bottom Navigation Bar
-            
-            // Buttons
-            
         }
     }
     
@@ -184,6 +191,8 @@ struct UploadVideoView: View {
                             DispatchQueue.main.async {
                                 self.backendResponse = jsonResponse["statusMessage"] as? String ?? "No message"
                                 print("Backend response: \(jsonResponse)")
+                                // Navigate to response view on successful upload and evaluation
+                                self.navigateToResponse = true
                             }
                         }
                     } catch {
