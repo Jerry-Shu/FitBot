@@ -12,6 +12,7 @@
 		953362572C27536E00550391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 953362562C27536E00550391 /* Assets.xcassets */; };
 		9533625A2C27536E00550391 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 953362592C27536E00550391 /* Preview Assets.xcassets */; };
 		C4BFB7242C2771B900EF8198 /* UploadVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFB7232C2771B900EF8198 /* UploadVideoView.swift */; };
+		C4BFB7282C27A0CE00EF8198 /* createNewAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BFB7272C27A0CE00EF8198 /* createNewAccount.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		953362562C27536E00550391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		953362592C27536E00550391 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C4BFB7232C2771B900EF8198 /* UploadVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoView.swift; sourceTree = "<group>"; };
+		C4BFB7272C27A0CE00EF8198 /* createNewAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createNewAccount.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				953362522C27536D00550391 /* FitBotiOSApp.swift */,
 				953362542C27536D00550391 /* ContentView.swift */,
+				C4BFB7272C27A0CE00EF8198 /* createNewAccount.swift */,
 				C4BFB7232C2771B900EF8198 /* UploadVideoView.swift */,
 				953362562C27536E00550391 /* Assets.xcassets */,
 				953362582C27536E00550391 /* Preview Content */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4BFB7282C27A0CE00EF8198 /* createNewAccount.swift in Sources */,
 				953362552C27536D00550391 /* ContentView.swift in Sources */,
 				953362532C27536D00550391 /* FitBotiOSApp.swift in Sources */,
 				C4BFB7242C2771B900EF8198 /* UploadVideoView.swift in Sources */,

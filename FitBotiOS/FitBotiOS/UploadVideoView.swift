@@ -1,8 +1,12 @@
 import SwiftUI
+import UIKit
+import AVKit
 
 struct UploadVideoView: View {
-    @State private var selectedTab = 0
-
+    @State private var selectedVideoURL: URL?
+    @State private var showImagePicker = false
+    @State private var videoData: Data?
+    
     var body: some View {
         VStack {
             // Top Section
@@ -17,8 +21,6 @@ struct UploadVideoView: View {
                     .bold()
                     .padding(.trailing,40)
                 Spacer()
-                
-
             }
             .padding(.vertical, 0) // Reduce vertical padding to make the bar thinner
             .padding(.horizontal, 10) // Adjust the horizontal padding as needed
@@ -44,6 +46,7 @@ struct UploadVideoView: View {
                 
                 Button(action: {
                     // Action for recording new video
+                    // Implement video recording functionality here
                 }) {
                     Text("Record New Video")
                         .frame(maxWidth: .infinity)
@@ -56,7 +59,7 @@ struct UploadVideoView: View {
                 .padding(.bottom, 10)
                 
                 Button(action: {
-                    // Action for selecting existing video
+                    showImagePicker = true
                 }) {
                     Text("Select Existing Video")
                         .frame(maxWidth: .infinity)
@@ -67,9 +70,14 @@ struct UploadVideoView: View {
                         .padding(.horizontal, 20)
                 }
                 .padding(.bottom, 10)
+                .sheet(isPresented: $showImagePicker) {
+                    VideoPicker(videoURL: $selectedVideoURL, videoData: $videoData)
+                }
                 
                 Button(action: {
-                    // Action for submitting video
+                    if let videoData = videoData {
+                        uploadVideo(videoData: videoData)
+                    }
                 }) {
                     Text("Submit Video")
                         .frame(maxWidth: .infinity)
@@ -90,6 +98,69 @@ struct UploadVideoView: View {
         }
     }
     
+    func uploadVideo(videoData: Data) {
+        let url = URL(string: "YOUR_BACKEND_URL_HERE")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("video/mp4", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.uploadTask(with: request, from: videoData) { data, response, error in
+            if let error = error {
+                print("Upload error: \(error)")
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                print("Upload successful")
+            } else {
+                print("Upload failed")
+            }
+        }
+        
+        task.resume()
+    }
+}
+
+struct VideoPicker: UIViewControllerRepresentable {
+    @Binding var videoURL: URL?
+    @Binding var videoData: Data?
+    
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        var parent: VideoPicker
+        
+        init(parent: VideoPicker) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let url = info[.mediaURL] as? URL {
+                parent.videoURL = url
+                do {
+                    parent.videoData = try Data(contentsOf: url)
+                } catch {
+                    print("Error loading video data: \(error)")
+                }
+            }
+            picker.dismiss(animated: true)
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.mediaTypes = ["public.movie"]
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
 }
 
 struct ContentView_Previews: PreviewProvider {
